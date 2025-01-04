@@ -11,12 +11,42 @@
                     <ul class="wsus_menu_cat_item show_home toggle_menu">
                         {{-- <li><a href="#"><i class="fas fa-star"></i> hot promotions</a></li> --}}
 
-               
+                        
 
                         {{-- <li><a href="#"><i class="fal fa-gem"></i> View All Categories</a></li> --}}
                     </ul>
 
-               </div>
+                    <ul class="wsus__menu_item">
+                        <li><a   href="{{url('/')}}">home</a></li>
+
+                        <li><a  href="">vendors</a></li>
+                        <li><a  href="">flash Sale</a></li>
+                        <li><a  href="">blog</a></li>
+                        <li><a  href="">about</a></li>
+                        <li><a href="">contact</a></li>
+
+
+                    </ul>
+                    <ul class="wsus__menu_item wsus__menu_item_right">
+                        <li><a href="">track order</a></li>
+                        
+
+                        @if (auth()->check())
+                        @if (auth()->user()->role === 'user')
+                        <li><a href="{{route('user.dashboard')}}">my account</a></li>
+                        @elseif (auth()->user()->role === 'vendor')
+                        <li><a href="{{route('vendor.dashbaord')}}">Vendor Dashboard</a></li>
+                        @elseif (auth()->user()->role === 'admin')
+                        <li><a href="{{route('admin.dashbaord')}}">Admin Dashboard</a></li>
+
+                        @endif
+                        @else
+
+                        <li><a href="{{route('login')}}">login</a></li>
+                        @endif
+                       
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -27,7 +57,19 @@
     <span class="wsus__mobile_menu_close"><i class="fal fa-times"></i></span>
     <ul class="wsus__mobile_menu_header_icon d-inline-flex">
 
+    @if (auth()->check())
+                        @if (auth()->user()->role === 'user')
+                        <li><a href="{{route('user.dashboard')}}">my account</a></li>
+                        @elseif (auth()->user()->role === 'vendor')
+                        <li><a href="{{route('vendor.dashbaord')}}">Vendor Dashboard</a></li>
+                        @elseif (auth()->user()->role === 'admin')
+                        <li><a href="{{route('admin.dashbaord')}}">Admin Dashboard</a></li>
 
+                        @endif
+                        @else
+
+                        <li><a href="{{route('login')}}">login</a></li>
+                        @endif
 
     </ul>
     <form action="">
