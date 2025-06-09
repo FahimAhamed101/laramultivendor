@@ -7,4 +7,4 @@ use Illuminate\Support\Facades\Route;
 
 /** Admin Routes */
 
-Route::get('dashboard', [AdminController::class, 'dashboard'])->name('dashbaord');
+Route::get('dashboard', [AdminController::class, 'dashboard'])->name('dashboard');

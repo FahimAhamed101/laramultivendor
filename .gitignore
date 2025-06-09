@@ -21,3 +21,5 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+# composer update --with-all-dependencies
+# composer update --with-all-dependencies

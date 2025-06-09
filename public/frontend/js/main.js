@@ -311,9 +311,9 @@ $(function () {
 
 
     //=======COUNTDOWN======
-    var d = new Date(),
-        countUpDate = new Date();
-    d.setDate(d.getDate() + 90);
+    // var d = new Date(),
+    //     countUpDate = new Date();
+    // d.setDate(d.getDate() + 90);
 
     // default example
     // simplyCountdown('.simply-countdown-one', {
@@ -488,15 +488,15 @@ $(function () {
 
 
     //*==========PRICE SLIDER=========
-    // jQuery(function () {
-    //     jQuery("#slider_range").flatslider({
-    //         min: 0, max: 10000,
-    //         step: 100,
-    //         values: [0, 8000],
-    //         range: true,
-    //         einheit: '$'
-    //     });
-    // });
+    jQuery(function () {
+        jQuery("#slider_range").flatslider({
+            min: 0, max: 10000,
+            step: 100,
+            values: [0, 8000],
+            range: true,
+            einheit: '$'
+        });
+    });
 
 
     //*========IMG & VIDEO UPLOAD=======
