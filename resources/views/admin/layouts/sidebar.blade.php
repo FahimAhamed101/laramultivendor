@@ -72,25 +72,33 @@
                 <a class="nav-link" href=""><i class="far fa-square"></i> <span>Transactions</span></a>
             </li>
 
-            <li class="dropdown ">
+            <li class="dropdown {{ setActive([
+                'admin.brand.*',
+                'admin.products.*',
+                'admin.seller-products.*',
+                'admin.seller-pending-products.*',
+                'admin.products-image-gallery.*',
+                'admin.products-variant.*',
+                'admin.products-variant-item.*',
+            ]) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>
                     <span>Manage Products</span></a>
                 <ul class="dropdown-menu">
-                    <li class="">
-                        <a class="nav-link" href="">Brands</a>
+                    <li class="{{ setActive(['admin.brand.*']) }}">
+                        <a class="nav-link" href="{{ route('admin.brand.index') }}">Brands</a>
                     </li>
-                    <li class="">
-                        <a class="nav-link" href="">Products</a>
+                    <li class="{{ setActive([
+                    'admin.products.*',
+                    'admin.products-image-gallery.*',
+                    'admin.products-variant.*',
+                    'admin.products-variant-item.*',
+                    ]) }}">
+                        <a class="nav-link" href="{{ route('admin.products.index') }}">Products</a>
                     </li>
-                    <li class="">
-                        <a class="nav-link" href="">Seller Products</a>
-                    </li>
-                    <li class="">
-                        <a class="nav-link" href="">Seller Pending
-                            Products</a>
-                    </li>
+                   
                 </ul>
             </li>
+
 
             <li class="dropdown">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>

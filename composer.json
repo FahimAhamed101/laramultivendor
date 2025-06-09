@@ -7,13 +7,14 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "laravel/framework": "^12.9.2",
+        "laravel/framework": "^12.17",
         "laravel/tinker": "^2.9",
         "php-flasher/flasher-laravel": "^2.1",
         "yajra/laravel-datatables": "^12.0",
         "yajra/laravel-datatables-oracle": "^12.0"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.15",
         "fakerphp/faker": "^1.23",
         "laravel/breeze": "^2.3",
         "laravel/pail": "^1.1",

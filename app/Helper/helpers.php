@@ -15,3 +15,15 @@ function setActive(array $route)
         }
     }
 }
+
+// Check the product type
+function productType(string $type): string
+{
+    return match ($type) {
+        'new_arrival' => 'New',
+        'featured_product' => 'Featured',
+        'top_product' => 'Top',
+        'best_product' => 'Best',
+        default => '',
+    };
+}
