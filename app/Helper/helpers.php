@@ -15,7 +15,16 @@ function setActive(array $route)
         }
     }
 }
+// Check product have discount
+function checkDiscount($product): bool
+{
+    $currentDate = date('Y-m-d');
 
+    if ($product->offer_price > 0 && $currentDate >= $product->offer_start_date && $currentDate <= $product->offer_end_date) {
+        return true;
+    }
+    return false;
+}
 // Check the product type
 function productType(string $type): string
 {
@@ -26,4 +35,14 @@ function productType(string $type): string
         'best_product' => 'Best',
         default => '',
     };
+}
+
+// Calculate discount percent
+function calculateDiscountPercent($original_price, $discount_price): float
+{
+    $discountAmount = $original_price - $discount_price;
+    $discountPercent = round(($discountAmount / $original_price) * 100);
+
+    return $discountPercent;
+
 }
