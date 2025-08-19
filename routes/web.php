@@ -4,7 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\VendorController;
 use App\Http\Controllers\Frontend\UserDashboardController;
-
+use App\Http\Controllers\Frontend\FrontendProductController;
 #Route::get('/', function () {
  #   return view('welcome');
 #});
@@ -20,7 +20,7 @@ Route::middleware('auth')->group(function () {
 });
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-
+Route::get('product-detail/{slug}', [FrontendProductController::class, 'showProduct'])->name('product-detail');
 
 
 require __DIR__.'/auth.php';
