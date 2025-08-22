@@ -15,6 +15,7 @@ function setActive(array $route)
         }
     }
 }
+
 // Check product have discount
 function checkDiscount($product): bool
 {
@@ -25,6 +26,16 @@ function checkDiscount($product): bool
     }
     return false;
 }
+
+// Calculate discount percent
+function calculateDiscountPercent($original_price, $discount_price): float
+{
+    $discountAmount = $original_price - $discount_price;
+    $discountPercent = round(($discountAmount / $original_price) * 100);
+
+    return $discountPercent;
+}
+
 // Check the product type
 function productType(string $type): string
 {
@@ -37,12 +48,75 @@ function productType(string $type): string
     };
 }
 
-// Calculate discount percent
-function calculateDiscountPercent($original_price, $discount_price): float
+/**
+ * Get total cart amount
+ */
+function getCartTotal()
 {
-    $discountAmount = $original_price - $discount_price;
-    $discountPercent = round(($discountAmount / $original_price) * 100);
+    $total = 0;
+    foreach (\Cart::content() as $product) {
+        $total += ($product->price + $product->options->variants_total) * $product->qty;
+    }
 
-    return $discountPercent;
+    return $total;
+}
 
+/**
+ * Get payable total amount
+ */
+function getMainCartTotal()
+{
+    if (Session::has('coupon')) {
+        $coupon = Session::get('coupon');
+        $subTotal = getCartTotal();
+        if ($coupon['discount_type'] === 'amount') {
+            $total = $subTotal - $coupon['discount'];
+            return $total;
+        } elseif ($coupon['discount_type'] === 'percent') {
+            $discount = ($subTotal * $coupon['discount'] / 100);
+            $total = $subTotal - $discount;
+            return $total;
+        }
+    } else {
+        return getCartTotal();
+    }
+}
+
+/**
+ * Get cart discount
+ */
+function getCartDiscount()
+{
+    if (Session::has('coupon')) {
+        $coupon = Session::get('coupon');
+        $subTotal = getCartTotal();
+        if ($coupon['discount_type'] === 'amount') {
+            return $coupon['discount'];
+        } elseif ($coupon['discount_type'] === 'percent') {
+            $discount = ($subTotal * $coupon['discount'] / 100);
+            return $discount;
+        }
+    } else {
+        return 0;
+    }
+}
+
+/**
+ * Get selected shipping fee from session
+ */
+
+function getShippingFee() {
+    if (Session::has('shipping_method')) {
+        return Session::get('shipping_method')['cost'];
+    } else {
+        return 0;
+    }
+}
+
+/**
+ * Get payable amount
+ */
+
+function getFinalPayableAmount() {
+    return getMainCartTotal() + getShippingFee();
 }

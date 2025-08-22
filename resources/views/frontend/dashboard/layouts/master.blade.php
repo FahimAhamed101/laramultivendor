@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densityDpi=device-dpi"/>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
           rel="stylesheet">
     <meta name="csrf-token" id="csrf-token" content="{{ csrf_token() }}">
@@ -36,80 +36,40 @@
 
 <body>
 
-<!--============================
-    HEADER START
-==============================-->
-@include('frontend.layouts.header')
-<!--============================
-    HEADER END
-==============================-->
 
-
-<!--============================
-    MAIN MENU START
+<!--=============================
+  DASHBOARD MENU START
 ==============================-->
-@include('frontend.layouts.menu')
-<!--============================
-    MAIN MENU END
-==============================-->
-
-
-<!--==========================
-    POP UP START
-===========================-->
-<!-- <section id="wsus__pop_up">
-    <div class="wsus__pop_up_center">
-        <div class="wsus__pop_up_text">
-            <span id="cross"><i class="fas fa-times"></i></span>
-            <h5>get up to <span>75% off</span></h5>
-            <h2>Sign up to E-SHOP</h2>
-            <p>Subscribe to the <b>E-SHOP</b> market newsletter to receive updates on special offers.</p>
-            <form>
-                <input type="email" placeholder="Your Email" class="news_input">
-                <button type="submit" class="common_btn">go</button>
-                <div class="wsus__pop_up_check_box">
-                </div>
-            </form>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault11">
-                <label class="form-check-label" for="flexCheckDefault11">
-                    Don't show this popup again
-                </label>
-            </div>
-        </div>
+<div class="wsus__dashboard_menu">
+    <div class="wsusd__dashboard_user">
+        <img src="{{ asset('frontend/images/dashboard_user.jpg') }}" alt="img" class="img-fluid">
+        <p>anik roy</p>
     </div>
-</section> -->
-<!--==========================
-    POP UP END
-===========================-->
+</div>
+<!--=============================
+  DASHBOARD MENU END
+==============================-->
 
-<!--============================
-    MAIN CONTENT START
+
+<!--=============================
+  DASHBOARD START
 ==============================-->
 @yield('content')
-<!--============================
-    MAIN CONTENT START
-==============================-->
-
-
-<!--============================
-    FOOTER PART START
-==============================-->
-@include('frontend.layouts.footer')
-<!--============================
-    FOOTER PART END
+<!--=============================
+  DASHBOARD START
 ==============================-->
 
 
 <!--============================
     SCROLL BUTTON START
-==============================-->
+  ==============================-->
 <div class="wsus__scroll_btn">
     <i class="fas fa-chevron-up"></i>
 </div>
 <!--============================
-    SCROLL BUTTON  END
+  SCROLL BUTTON  END
 ==============================-->
+
 
 <!--jquery library js-->
 <script src="{{ asset('frontend/js/jquery-3.6.0.min.js') }}"></script>
@@ -153,20 +113,71 @@
 <!--main/custom js-->
 <script src="{{ asset('frontend/js/main.js') }}"></script>
 
+{{-- Show dynamic Validation Error --}}
 <script>
-
     @if($errors->any())
-    @foreach($errors->all() as $error)
-
-    flasher.error("{{ $error }}");
-
-    @endforeach
+        @foreach($errors->all() as $error)
+            flasher.error("{{ $error }}");
+        @endforeach
     @endif
 </script>
 
-@include('frontend.layouts.script')
+{{-- Dynamic delete alert --}}
+<script>
+    $(document).ready(function () {
+        // Csrf token
+        $.ajaxSetup({
+            headers:
+                {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+        });
 
-@stack('scripts')
+        $('body').on('click', '.delete-item', function (e) {
+            e.preventDefault();
+            let deleteUrl = $(this).attr('href')
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: 'DELETE',
+                        url: deleteUrl,
+
+                        success: function (data) {
+                            if (data.status === 'success') {
+                                Swal.fire({
+                                    title: "Deleted!",
+                                    text: data.message,
+                                    icon: "success"
+                                }).then(() => {
+                                    window.location.reload();
+                                });
+                            } else if (data.status === 'error') {
+                                Swal.fire({
+                                    title: "You can't delete!",
+                                    text: data.message,
+                                    icon: "error"
+                                })
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.log(error)
+                        }
+                    })
+                }
+            });
+
+        })
+    })
+</script>
 
 </body>
 
